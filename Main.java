@@ -13,10 +13,30 @@ public class Main
     public static void main(String[] args)
     {
         ArrayList<Employee> staff = loadStaffFromFile();
-        Collections.sort(staff, (o1, o2) -> o1.getName().compareTo(o2.getName()));
-        Collections.sort(staff, (o1, o2) -> o1.getSalary().compareTo(o2.getSalary()));
+        Collections.sort(staff, (o1, o2) -> {
+            if (o1.getName().compareTo(o2.getName()) > 0)
+            {
+                return (o1.getSalary().compareTo(o2.getSalary()) < 0) ? -1 : 1;
+            }
+            if (o1.getName().compareTo(o2.getName()) < 0)
+            {
+                return (o1.getSalary().compareTo(o2.getSalary()) > 0) ? 1 : -1;
+            }
+            if (o1.getName().compareTo(o2.getName()) == 0)
+            {
+                if (o1.getSalary().compareTo(o2.getSalary()) > 0)
+                {
+                    return 1;
+                }
+                if (o1.getSalary().compareTo(o2.getSalary()) < 0)
+                {
+                    return -1;
+                }
+                return 0;
+            }
 
-
+            return 0;
+        });
         for (Employee emoployees : staff)
         {
             System.out.println(emoployees);
@@ -38,9 +58,9 @@ public class Main
                     continue;
                 }
                 staff.add(new Employee(
-                    fragments[0],
-                    Integer.parseInt(fragments[1]),
-                    (new SimpleDateFormat(dateFormat)).parse(fragments[2])
+                        fragments[0],
+                        Integer.parseInt(fragments[1]),
+                        (new SimpleDateFormat(dateFormat)).parse(fragments[2])
                 ));
             }
         }
