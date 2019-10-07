@@ -3,6 +3,7 @@ import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class Main
@@ -13,21 +14,7 @@ public class Main
     public static void main(String[] args)
     {
         ArrayList<Employee> staff = loadStaffFromFile();
-        Collections.sort(staff, (o1, o2) -> {
-            if (o1.getName().compareTo(o2.getName()) <= 0)
-            {
-                return (o1.getSalary().compareTo(o2.getSalary()) > 0) ? 1 : -1;
-            }
-            if (o1.getName().compareTo(o2.getName()) > 0)
-            {
-                return (o1.getSalary().compareTo(o2.getSalary()) >= 0) ? 1 : -1;
-            }
-            return 0;
-        });
-        for (Employee emoployees : staff)
-        {
-            System.out.println(emoployees);
-        }
+        staff.stream().sorted(Comparator.comparing(Employee::getSalary).thenComparing(Employee::getName)).forEach(System.out::println);
     }
 
 
